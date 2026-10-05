@@ -1,0 +1,65 @@
+<?php
+
+namespace App\Http\Controllers\Auth;
+
+use App\Http\Controllers\Controller;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+
+class LoginController extends Controller
+{
+    public function showLoginForm()
+    {
+        return view('auth.login');
+    }
+
+    public function login(Request $request)
+    {
+        $credentials = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ], [
+            'email.required' => 'El correo electrónico es obligatorio.',
+            'email.email' => 'Ingresa un correo electrónico válido.',
+            'password.required' => 'La contraseña es obligatoria.',
+        ]);
+
+        $user = User::where('email', $credentials['email'])->first();
+
+        if (!$user || !Hash::check($credentials['password'], $user->password)) {
+            return back()
+                ->withErrors([
+                    'email' => 'Correo electrónico o contraseña incorrectos.',
+                ])
+                ->onlyInput('email');
+        }
+
+        if (!$user->status) {
+            return back()
+                ->withErrors([
+                    'email' => 'Tu cuenta se encuentra inactiva. Comunícate con el administrador.',
+                ])
+                ->onlyInput('email');
+        }
+
+        Auth::login($user, $request->boolean('remember'));
+
+        $request->session()->regenerate();
+
+        return redirect()->intended(route('dashboard'));
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()
+            ->route('login')
+            ->with('success', 'Sesión cerrada correctamente.');
+    }
+}
