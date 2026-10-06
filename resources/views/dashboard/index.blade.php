@@ -20,6 +20,7 @@
                     colors: {
                         primary: '#006948',
                         'primary-container': '#00855d',
+
                         secondary: '#006a63',
                         'secondary-container': '#99efe5',
 
@@ -31,6 +32,7 @@
 
                         'on-surface': '#131b2e',
                         'on-surface-variant': '#3d4a42',
+
                         outline: '#6d7a72',
                         'outline-variant': '#bccac0'
                     }
@@ -64,11 +66,14 @@
     </style>
 </head>
 
+
 <body class="bg-surface text-on-surface">
 
 @php
     $usuario = auth()->user();
+
     $rol = $usuario->role->name;
+
     $esAdministrador = $rol === 'Administrador';
 
     $iniciales =
@@ -77,7 +82,11 @@
 @endphp
 
 
+
+{{-- ========================================================= --}}
 {{-- SIDEBAR --}}
+{{-- ========================================================= --}}
+
 <aside
     class="
         hidden
@@ -175,7 +184,8 @@
             {{-- USUARIOS --}}
             @if($esAdministrador)
 
-                <div
+                <a
+                    href="{{ route('users.index') }}"
                     class="
                         mt-1
                         flex
@@ -185,7 +195,9 @@
                         py-3
                         rounded-lg
                         text-on-surface-variant
-                        opacity-70
+                        hover:bg-surface-container
+                        hover:text-primary
+                        transition-colors
                     "
                 >
 
@@ -195,7 +207,7 @@
 
                     Gestión de Usuarios
 
-                </div>
+                </a>
 
 
                 {{-- ROLES --}}
@@ -246,7 +258,7 @@
             </div>
 
 
-            {{-- FUTURO --}}
+            {{-- PRÓXIMOS MÓDULOS --}}
             <p
                 class="
                     px-3
@@ -291,6 +303,7 @@
 
                     </div>
 
+
                     <span
                         class="
                             text-[10px]
@@ -312,7 +325,8 @@
     </div>
 
 
-    {{-- USUARIO ABAJO --}}
+
+    {{-- USUARIO --}}
     <div class="p-3 bg-surface-container-low">
 
         <div
@@ -342,26 +356,17 @@
                 {{ $iniciales }}
             </div>
 
+
             <div class="min-w-0 flex-1">
 
-                <p
-                    class="
-                        text-sm
-                        font-semibold
-                        truncate
-                    "
-                >
+                <p class="text-sm font-semibold truncate">
+
                     {{ $usuario->first_name }}
                     {{ $usuario->last_name }}
+
                 </p>
 
-                <p
-                    class="
-                        text-xs
-                        text-primary
-                        truncate
-                    "
-                >
+                <p class="text-xs text-primary truncate">
                     {{ $rol }}
                 </p>
 
@@ -372,6 +377,7 @@
                 method="POST"
                 action="{{ route('logout') }}"
             >
+
                 @csrf
 
                 <button
@@ -382,9 +388,11 @@
                         hover:text-red-600
                     "
                 >
+
                     <span class="material-symbols-outlined">
                         logout
                     </span>
+
                 </button>
 
             </form>
@@ -397,7 +405,10 @@
 
 
 
-{{-- CONTENEDOR --}}
+{{-- ========================================================= --}}
+{{-- CONTENEDOR PRINCIPAL --}}
+{{-- ========================================================= --}}
+
 <div class="lg:pl-64 min-h-screen">
 
 
@@ -473,8 +484,10 @@
             <div class="hidden md:block text-right">
 
                 <p class="text-sm font-semibold">
+
                     {{ $usuario->first_name }}
                     {{ $usuario->last_name }}
+
                 </p>
 
                 <p class="text-xs text-on-surface-variant">
@@ -489,15 +502,18 @@
                 action="{{ route('logout') }}"
                 class="lg:hidden"
             >
+
                 @csrf
 
                 <button
                     type="submit"
                     class="text-red-600"
                 >
+
                     <span class="material-symbols-outlined">
                         logout
                     </span>
+
                 </button>
 
             </form>
@@ -508,7 +524,10 @@
 
 
 
+    {{-- ===================================================== --}}
     {{-- CONTENIDO --}}
+    {{-- ===================================================== --}}
+
     <main class="p-5 lg:p-8">
 
 
@@ -550,7 +569,10 @@
 
 
 
-        {{-- TARJETAS --}}
+        {{-- ================================================= --}}
+        {{-- TARJETAS SUPERIORES --}}
+        {{-- ================================================= --}}
+
         <div
             class="
                 grid
@@ -576,12 +598,7 @@
 
                     <div>
 
-                        <p
-                            class="
-                                text-sm
-                                text-on-surface-variant
-                            "
-                        >
+                        <p class="text-sm text-on-surface-variant">
                             Usuarios activos
                         </p>
 
@@ -597,6 +614,7 @@
 
                     </div>
 
+
                     <div
                         class="
                             w-11
@@ -609,12 +627,15 @@
                             justify-center
                         "
                     >
+
                         <span class="material-symbols-outlined">
                             group
                         </span>
+
                     </div>
 
                 </div>
+
 
                 <p
                     class="
@@ -646,12 +667,7 @@
 
                     <div>
 
-                        <p
-                            class="
-                                text-sm
-                                text-on-surface-variant
-                            "
-                        >
+                        <p class="text-sm text-on-surface-variant">
                             Catálogo de productos
                         </p>
 
@@ -668,6 +684,7 @@
 
                     </div>
 
+
                     <div
                         class="
                             w-11
@@ -680,9 +697,11 @@
                             justify-center
                         "
                     >
+
                         <span class="material-symbols-outlined">
                             inventory_2
                         </span>
+
                     </div>
 
                 </div>
@@ -711,14 +730,10 @@
                 "
             >
 
-                <p
-                    class="
-                        text-sm
-                        text-on-surface-variant
-                    "
-                >
+                <p class="text-sm text-on-surface-variant">
                     Mi rol actual
                 </p>
+
 
                 <div
                     class="
@@ -748,6 +763,7 @@
 
                 </div>
 
+
                 <p
                     class="
                         text-xs
@@ -772,7 +788,7 @@
 
 
 
-            {{-- SISTEMA --}}
+            {{-- ESTADO DEL SISTEMA --}}
             <div
                 class="
                     bg-white
@@ -782,23 +798,12 @@
                 "
             >
 
-                <p
-                    class="
-                        text-sm
-                        text-on-surface-variant
-                    "
-                >
+                <p class="text-sm text-on-surface-variant">
                     Estado del sistema
                 </p>
 
-                <div
-                    class="
-                        flex
-                        items-center
-                        gap-2
-                        mt-5
-                    "
-                >
+
+                <div class="flex items-center gap-2 mt-5">
 
                     <span
                         class="
@@ -809,16 +814,12 @@
                         "
                     ></span>
 
-                    <span
-                        class="
-                            text-2xl
-                            font-bold
-                        "
-                    >
+                    <span class="text-2xl font-bold">
                         Operativo
                     </span>
 
                 </div>
+
 
                 <p
                     class="
@@ -836,7 +837,10 @@
 
 
 
+        {{-- ================================================= --}}
         {{-- ACCESOS RÁPIDOS --}}
+        {{-- ================================================= --}}
+
         <section
             class="
                 mt-6
@@ -868,23 +872,14 @@
 
                 </div>
 
+
                 <div>
 
-                    <h2
-                        class="
-                            text-xl
-                            font-semibold
-                        "
-                    >
+                    <h2 class="text-xl font-semibold">
                         Accesos rápidos
                     </h2>
 
-                    <p
-                        class="
-                            text-sm
-                            text-on-surface-variant
-                        "
-                    >
+                    <p class="text-sm text-on-surface-variant">
                         Funciones disponibles durante el Sprint 1.
                     </p>
 
@@ -906,15 +901,18 @@
 
                 @if($esAdministrador)
 
-                    {{-- USUARIOS --}}
-                    <div
+                    {{-- GESTIONAR USUARIOS --}}
+                    <a
+                        href="{{ route('users.index') }}"
                         class="
                             p-4
                             rounded-xl
                             bg-surface-container-low
                             border
                             border-outline-variant
-                            opacity-70
+                            hover:border-primary
+                            hover:shadow-md
+                            transition-all
                         "
                     >
 
@@ -938,10 +936,53 @@
                                 mt-1
                             "
                         >
-                            Siguiente funcionalidad a implementar.
+                            Registrar, consultar y administrar usuarios.
                         </p>
 
-                    </div>
+                    </a>
+
+
+
+                    {{-- NUEVO USUARIO --}}
+                    <a
+                        href="{{ route('users.create') }}"
+                        class="
+                            p-4
+                            rounded-xl
+                            bg-surface-container-low
+                            border
+                            border-outline-variant
+                            hover:border-primary
+                            hover:shadow-md
+                            transition-all
+                        "
+                    >
+
+                        <span
+                            class="
+                                material-symbols-outlined
+                                text-primary
+                            "
+                        >
+                            person_add
+                        </span>
+
+                        <p class="font-semibold mt-2">
+                            Nuevo Usuario
+                        </p>
+
+                        <p
+                            class="
+                                text-xs
+                                text-on-surface-variant
+                                mt-1
+                            "
+                        >
+                            Registrar una nueva cuenta de acceso.
+                        </p>
+
+                    </a>
+
 
 
                     {{-- ROLES --}}
@@ -982,6 +1023,7 @@
                     </div>
 
                 @endif
+
 
 
                 {{-- PRODUCTOS --}}
@@ -1027,7 +1069,10 @@
 
 
 
-        {{-- ESTADO DEL SPRINT --}}
+        {{-- ================================================= --}}
+        {{-- ESTADO SPRINT Y SESIÓN --}}
+        {{-- ================================================= --}}
+
         <section
             class="
                 mt-6
@@ -1039,6 +1084,7 @@
         >
 
 
+            {{-- ESTADO SPRINT --}}
             <div
                 class="
                     bg-white
@@ -1048,12 +1094,7 @@
                 "
             >
 
-                <h2
-                    class="
-                        text-xl
-                        font-semibold
-                    "
-                >
+                <h2 class="text-xl font-semibold">
                     Estado del Sprint 1
                 </h2>
 
@@ -1076,9 +1117,10 @@
                         ['Inicio y cierre de sesión', true],
                         ['Roles de usuario', true],
                         ['Protección de rutas', true],
-                        ['Gestión de usuarios', false],
+                        ['Gestión de usuarios', true],
                         ['Catálogo de productos', false]
                     ] as $item)
+
 
                         <div
                             class="
@@ -1146,7 +1188,7 @@
 
 
 
-            {{-- DATOS DE SESIÓN --}}
+            {{-- SESIÓN --}}
             <div
                 class="
                     bg-white
@@ -1173,6 +1215,7 @@
 
                 <div class="mt-5 space-y-4">
 
+
                     <div>
 
                         <p
@@ -1186,8 +1229,10 @@
                         </p>
 
                         <p class="font-semibold mt-1">
+
                             {{ $usuario->first_name }}
                             {{ $usuario->last_name }}
+
                         </p>
 
                     </div>
@@ -1243,29 +1288,59 @@
                             Estado
                         </p>
 
-                        <span
-                            class="
-                                inline-flex
-                                mt-1
-                                items-center
-                                gap-2
-                                text-green-700
-                                font-semibold
-                            "
-                        >
+                        @if($usuario->status)
 
                             <span
                                 class="
-                                    w-2
-                                    h-2
-                                    rounded-full
-                                    bg-green-600
+                                    inline-flex
+                                    mt-1
+                                    items-center
+                                    gap-2
+                                    text-green-700
+                                    font-semibold
                                 "
-                            ></span>
+                            >
 
-                            Activo
+                                <span
+                                    class="
+                                        w-2
+                                        h-2
+                                        rounded-full
+                                        bg-green-600
+                                    "
+                                ></span>
 
-                        </span>
+                                Activo
+
+                            </span>
+
+                        @else
+
+                            <span
+                                class="
+                                    inline-flex
+                                    mt-1
+                                    items-center
+                                    gap-2
+                                    text-red-600
+                                    font-semibold
+                                "
+                            >
+
+                                <span
+                                    class="
+                                        w-2
+                                        h-2
+                                        rounded-full
+                                        bg-red-600
+                                    "
+                                ></span>
+
+                                Inactivo
+
+                            </span>
+
+                        @endif
 
                     </div>
 
@@ -1277,7 +1352,10 @@
 
 
 
+        {{-- ================================================= --}}
         {{-- ROADMAP --}}
+        {{-- ================================================= --}}
+
         <div
             class="
                 mt-6
@@ -1313,6 +1391,7 @@
                     </span>
 
                 </div>
+
 
                 <div>
 
